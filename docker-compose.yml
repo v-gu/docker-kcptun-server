@@ -5,15 +5,15 @@ services:
     container_name: kcptun-server
     image: lisnaz/kcptun-server:latest
     ports:
-     - "29000:29000/tcp"
+     - "8388:8388/tcp"
     networks:
       default:
         ipv4_address: 172.18.0.2
     environment:
-      - KCPTUN_LISTEN_ADDR=<your kcptun server's listening address>
-      - KCPTUN_LISTEN_PORT=<your kcptun server's listening port>
-      - KCPTUN_TARGET_ADDR=<target service's address>
-      - KCPTUN_LISTEN_PORT=<target service's port>
+      - KCPTUN_SERVER_LISTEN_ADDR=<your kcptun server's listening address>
+      - KCPTUN_SERVER_LISTEN_PORT=<your kcptun server's listening port>
+      - KCPTUN_SERVER_TARGET_ADDR=<target service's address>
+      - KCPTUN_SERVER_LISTEN_PORT=<target service's port>
       - KCPTUN_CRYPT=none
       - KCPTUN_MODE=fast2
       - KCPTUN_RCVWND=1024

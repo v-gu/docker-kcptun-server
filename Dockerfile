@@ -2,39 +2,21 @@
 # Dockerfile for kcptun-server
 #
 
-FROM alpine
+FROM lisnaz/kcptun:latest
 MAINTAINER Vincent.Gu <g@v-io.co>
 
-ENV KCPTUN_LISTEN_ADDR   ""
-ENV KCPTUN_LISTEN_PORT   29000
-ENV KCPTUN_TARGET_ADDR   ""
-ENV KCPTUN_TARGET_PORT   8388
-ENV KCPTUN_KEY           password
-ENV KCPTUN_CRYPT         aes
-ENV KCPTUN_MODE          fast2
-ENV KCPTUN_CONN          1
-ENV KCPTUN_AUTO_EXPIRE   0
-ENV KCPTUN_MTU           1200
-ENV KCPTUN_SNDWND        1024
-ENV KCPTUN_RCVWND        1024
-ENV KCPTUN_DATASHARD     10
-ENV KCPTUN_PARITYSHARD   3
-ENV KCPTUN_DSCP          46
-ENV KCPTUN_NOCOMP        true
-ENV KCPTUN_LOG           /dev/null
+ENV KCPTUN_SERVER_LISTEN_ADDR   127.0.0.1
+ENV KCPTUN_SERVER_LISTEN_PORT   8388
+ENV KCPTUN_SERVER_TARGET_ADDR   127.0.0.1
+ENV KCPTUN_SERVER_TARGET_PORT   4000
 
-# define default directory
-ENV APP_DIR              /srv/kcptun
-WORKDIR $APP_DIR
-
-EXPOSE $KCPTUN_LISTEN_PORT/tcp
+EXPOSE $KCPTUN_SERVER_LISTEN_PORT/tcp
 
 ADD entrypoint.sh /
 ENTRYPOINT ["/entrypoint.sh"]
 
-# build kcptun
-ENV KCPTUN_VER 20170329
-ENV KCPTUN_URL https://github.com/xtaci/kcptun/releases/download/v${KCPTUN_VER}/kcptun-linux-amd64-${KCPTUN_VER}.tar.gz
+# install dependencies
+ENV KCPTUN_DEP bash
 RUN set -ex \
-    && curl -sSL $KCPTUN_URL | tar xz \
-    && rm -rf /var/cache/apk/*
+    && apk add --update --no-cache $KCPTUN_DEP \
+    && rm -rf /var/cache/apk/* \
