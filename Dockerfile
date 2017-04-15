@@ -2,7 +2,7 @@
 # Dockerfile for kcptun-server
 #
 
-FROM lisnaz/kcptun:latest
+FROM lisnaz/kcptun
 MAINTAINER Vincent.Gu <g@v-io.co>
 
 ENV KCPTUN_SERVER_LISTEN_ADDR   127.0.0.1
